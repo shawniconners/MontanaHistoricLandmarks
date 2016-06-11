@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Montana Historic Landmarks</title>
+		<script>
+			
+			function capitaliseFirstLetter(string)
+			{
+				return string.charAt(0).toUpperCase() + string.slice(1);
+			}
+			
+			function preventBehavior(e)
+			{
+				e.preventDefault();
+			};
+			
+			function funShowItem(inc_element_id){
+				document.getElementById(inc_element_id).style.visibility = "visible";
+				document.getElementById(inc_element_id).style.display = "block";
+			}
+			
+			function funHideItem(inc_element_id){
+				document.getElementById(inc_element_id).style.visibility = "hidden";
+				document.getElementById(inc_element_id).style.display = "none";
+			}
+			
+			function funWidthOffset(inc_element_id){
+                return document.getElementById(inc_element_id).offsetWidth / 2;
+            }
+            
+            function funHeightOffset(inc_element_id){
+                return document.getElementById(inc_element_id).offsetHeight / 2;
+            }
+			
+			
+			function randint( l, u )
+			// Returns an integer uniformly distributed over l..u.
+			{
+				return l + Math.floor( Math.random() * ( u + 1 - l ));
+			}
+			
+			function generate( )
+			{
+				var minval = 0;
+				var maxval = 18;
+				
+				
+				var a = new Array( maxval - minval + 1 );
+				
+				
+				for ( var i = 0, j = minval; j <= maxval; i++, j++ )
+				{
+					a[i] = j;
+				}
+				
+				
+				for ( var i = a.length - 1; i > 0; i-- )
+				{
+					var j = randint( 0, i );
+					
+					// Swap the elements at positions i and j.
+					var temp = a[i];
+					a[i] = a[j];
+					a[j] = temp;
+				}
+				
+				for ( var i = 0; i < a.length; i++ )
+				{
+					arrCityRandom[i] = arrCityNames[a[i]];
+				}
+				
+			}
+			
+			var arrCityRandom = new Array(19);
+			var arrCityAnswers = new Array(19);
+			var arrCityNames = ["Bannack Historic District",
+								"Butte Historic District",
+								"Camp Disappointment",
+								"Chief Joseph Battleground of Bear's Paw",
+								"Chief Plenty Coups Home",
+								"Fort Benton",
+								"Grant-Kohrs Ranch",
+								"Great Falls Portage and Charles M. Russell House and Studio",
+								"Great Northern Railway Buildings and Going-to-the-Sun Road",
+								"Hagen Site",
+								"Lake McDonald Lodge",
+								"Northeast Entrance Station",
+								"Pictograph Cave",
+								"Pompey's Pillar",
+								"Rankin Ranch",
+								"Three Forks of the Missouri",
+								"Traveler's Rest",
+								"Virginia City Historic District",
+								"Burton K. Wheeler House"
+								];
+			var arrCityClean = ["BannackHistoricDistrict",
+								"ButteHistoricDistrict",
+								"CampDisappointment",
+								"BearsPaw",
+								"ChiefPlenty",
+								"FortBenton",
+								"Grant-KohrsRanch",
+								"greatfallscharles",
+								"railandsun",
+								"HagenSite",
+								"LakeMcDonaldLodge",
+								"NortheastEntranceStation",
+								"PictographCave",
+								"pompey",
+								"RankinRanch",
+								"ThreeForks",
+								"TravelersRest",
+								"VirginiaCity",
+								"BurtonWheeler"
+								];
+			
+			
+			
+			
+			var arrCityLefts=["248",
+							  "292",
+							  "271",
+							  "566",
+							  "687",
+							  "440",
+							  "290",
+							  "403",
+							  "213",
+							  "940",
+							  "200",
+							  "511",
+							  "627",
+							  "661",
+							  "368",
+							  "386",
+							  "186",
+							  "352",
+							  "313"
+							  ];
+			
+			var arrCityTops=["470",
+							 "399",
+							 "87",
+							 "109",
+							 "445",
+							 "148",
+							 "334",
+							 "212",
+							 "61",
+							 "232",
+							 "81",
+							 "504",
+							 "410",
+							 "382",
+							 "356",
+							 "392",
+							 "297",
+							 "466",
+							 "377"
+							 ];
+			
+			function funUpdateLefts(){
+				intHalfWidth = 10;
+				for (var i=0;i<arrCityLefts.length;i++)
+				{
+					arrCityLefts[i] = parseInt(arrCityLefts[i]) - intHalfWidth;
+					arrCityLefts[i] = arrCityLefts[i].toString();
+				}
+			}
+			
+			function funUpdateTops(){
+				intHalfHeight = 10;
+				for (var i=0;i<arrCityTops.length;i++)
+				{
+					arrCityTops[i] = parseInt(arrCityTops[i]) - intHalfHeight;
+					arrCityTops[i] = arrCityTops[i].toString();
+				}
+			}
+			
+			
+			
+			function funCityCleanToDirty(inc_clean){
+				strCityDirty = "";
+				for (var i=0;i<arrCityClean.length;i++)
+				{
+					if(arrCityClean[i] == inc_clean){
+						strCityDirty = arrCityNames[i];
+					}
+				}
+				return strCityDirty;
+			}
+			
+			function funCityDirtyToClean(inc_dirty){
+				strCityClean = "";
+				for (var i=0;i<arrCityNames.length;i++)
+				{
+					if(arrCityNames[i] == inc_dirty){
+						strCityClean = arrCityClean[i];
+					}
+				}
+				return strCityClean;
+			}
+			
+			
+			
+			
+			
+			function funSuccess(){
+				//
+			}
+			
+			function funError(){
+				//
+			}
+			
+			
+			
+			function funHome(){
+				window.location.href = "index.html";
+			}
+			
+			function funStart(){
+				document.getElementById("div_home_button").addEventListener('touchend', function(){funHome();}, false);
+				document.getElementById("div_flag_large").addEventListener('touchmove', funFlagDrag, false);
+				document.getElementById("div_flag_large").addEventListener('touchend', funFlagDrop, false);
+				document.getElementById("div_prompt").innerHTML = "Flag a Landmark";
+				mp3Start = new Media("flagalandmark.aiff", funSuccess, funError);
+				mp3Start.play();
+
+				funUpdateLefts();
+				funUpdateTops();
+				for (var i=0;i<arrCityNames.length;i++)
+				{
+					divCity = document.createElement("div");
+					divCity.setAttribute("id","div_city_" + arrCityClean[i]);
+					divCity.setAttribute("class","div_city");
+					divCity.style.left = arrCityLefts[i] + "px";
+					divCity.style.top = arrCityTops[i] + "px";
+					document.getElementById("div_container").appendChild(divCity);
+				}
+				funResetBigFlag();
+			}
+			
+			
+			function funResetBigFlag(){
+				document.getElementById("div_flag_large").style.left = "30px";
+				document.getElementById("div_flag_large").style.top = "615px";
+				document.getElementById("div_flag_large").className = "div_flag";
+			}
+			
+			function funFlagDrop(e){
+				funFlagDropCheck(e.target.id);
+				for (var i=0;i<arrCityClean.length;i++)
+				{
+					if(document.getElementById("div_city_" + arrCityClean[i]).className == "div_city_hover"){
+						funCityFlagged("div_city_" + arrCityClean[i]);
+						newX = document.getElementById(e.target.id).offsetLeft - funWidthOffset(e.target.id) + 81 + "px";
+						newY = document.getElementById(e.target.id).offsetTop - funHeightOffset(e.target.id) + 151 + "px";
+						document.getElementById("div_flag_small").style.left = newX;
+						document.getElementById("div_flag_small").style.top = newY;
+						funResetBigFlag();
+					}else{
+						document.getElementById("div_city_" + arrCityClean[i]).className = "div_city";
+					}
+				}
+			}
+			
+			
+			
+			function funCityFlagged(inc_city_id){
+				if(document.getElementById(inc_city_id).className != "div_city_blue"){
+					strCityTapped = inc_city_id;
+					document.getElementById(inc_city_id).className = "div_city_blue";
+					strCityTappedClean = strCityTapped.replace("div_city_","");
+					strCityTappedDirty = funCityCleanToDirty(strCityTappedClean);
+					document.getElementById("div_prompt").innerHTML = strCityTappedDirty;
+					mp3Start = new Media(strCityTappedClean + ".aiff", funSuccess, funError);
+					mp3Start.play();
+					
+				}
+			}
+			
+			
+			
+			function funFlagDropCheck(inc_flag_id){
+				intFlagTipX = document.getElementById(inc_flag_id).offsetLeft + 8;
+				intFlagTipY = document.getElementById(inc_flag_id).offsetTop + document.getElementById(inc_flag_id).offsetHeight;
+				
+				
+				for (var i=0;i<arrCityClean.length;i++)
+				{
+					if(document.getElementById("div_city_" + arrCityClean[i]).className != "div_city_blue"){
+						intTargetTLX = document.getElementById("div_city_" + arrCityClean[i]).offsetLeft;
+						intTargetTLY = document.getElementById("div_city_" + arrCityClean[i]).offsetTop;
+						
+						intTargetBRX = intTargetTLX + document.getElementById("div_city_" + arrCityClean[i]).offsetWidth;
+						intTargetBRY = intTargetTLY + document.getElementById("div_city_" + arrCityClean[i]).offsetHeight;
+						
+						intWillHover = 0;
+						if(intFlagTipX >= intTargetTLX && intFlagTipX <= intTargetBRX){
+							if(intFlagTipY >= intTargetTLY && intFlagTipY <= intTargetBRY){
+								intWillHover = 1;
+							}
+						}
+						if(intWillHover == 1){
+							document.getElementById("div_city_" + arrCityClean[i]).className = "div_city_hover";
+						}else{
+							document.getElementById("div_city_" + arrCityClean[i]).className = "div_city";
+						}
+					}
+				}
+			}
+			
+			
+			
+			
+			function funFlagDrag(e){
+				newX = e.layerX + document.getElementById(e.target.id).offsetLeft - funWidthOffset(e.target.id) + "px";
+				newY = e.layerY + document.getElementById(e.target.id).offsetTop - funHeightOffset(e.target.id) + "px";
+				document.getElementById(e.target.id).style.left = newX;
+				document.getElementById(e.target.id).style.top = newY;
+				document.getElementById(e.target.id).className = "div_flag_dragging";
+				document.getElementById("div_flag_small").style.left = "-100px";
+				document.getElementById("div_flag_small").style.top = "-100px";
+				funFlagDropCheck(e.target.id);
+				
+				
+			}
+			
+			
+			
+			
+			
+			</script>
+		<style>
+			body, div, img{
+				margin: 0px;
+				padding: 0px;
+				
+			}
+			#div_container{
+				background: url('img/background.png');
+				background-size: 100%;
+				width: 1024px;
+				height: 748px;
+			}
+			
+			
+			#div_home_button{
+				background: url('img/home.png');
+				background-size: 100%;
+				width: 210px;
+				height: 118px;
+				position: absolute;
+				top: 630px;
+				left: 702px;
+			}
+			#div_prompt{
+				width: 440px;
+				height: 110px;
+				position: absolute;
+				top: 610px;
+				left: 207px;
+				padding: 20px;
+				text-align: center;
+				font-size: 30px;
+				font-family: Verdana;
+				color: #FFF;
+			}
+			
+			.div_city{
+				background: #FFFF00;
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				text-align: center;
+				-webkit-transform: rotate(20deg);
+			}
+			.div_city:before {
+				content: "";
+				position: absolute;
+				height: 20px;
+				width: 20px;
+				background: #FFFF00;
+				-webkit-transform: rotate(135deg);
+			}
+			
+			.div_city_blue{
+				background: #0000FF;
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				text-align: center;
+				-webkit-transform: rotate(20deg);
+			}
+			.div_city_blue:before {
+				content: "";
+				position: absolute;
+				height: 20px;
+				width: 20px;
+				background: #0000FF;
+				-webkit-transform: rotate(135deg);
+			}
+			
+			
+			.div_city_tapped{
+				background: #C5C5C5;
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				text-align: center;
+				-webkit-transform: rotate(20deg);
+			}
+			.div_city_tapped:before {
+				content: "";
+				position: absolute;
+				height: 20px;
+				width: 20px;
+				background: #C5C5C5;
+				-webkit-transform: rotate(135deg);
+			}
+			
+			
+			.div_city_hover{
+				background: #de16fb;
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				text-align: center;
+				-webkit-transform: rotate(20deg);
+				-webkit-animation-name: anmAnchorPulse;
+				-webkit-animation-duration: 1s;
+				-webkit-animation-timing-function: linear;
+				-webkit-animation-iteration-count: infinite;
+			}
+			.div_city_hover:before {
+				content: "";
+				position: absolute;
+				height: 20px;
+				width: 20px;
+				background: #de16fb;
+				-webkit-transform: rotate(135deg);
+				-webkit-animation-name: anmAnchorPulse;
+				-webkit-animation-duration: 1s;
+				-webkit-animation-timing-function: linear;
+				-webkit-animation-iteration-count: infinite;
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			@-webkit-keyframes anmAnchorPulse
+            {
+                0% {
+                    opacity: 1.0;
+					-webkit-transform: scale(1.0) rotate(0deg);
+                }
+                25% {
+                    opacity: .90;
+					-webkit-transform: scale(1.1) rotate(-30deg);
+                }
+                50% {
+                    opacity: .80;
+					-webkit-transform: scale(1.2) rotate(0deg);
+                }
+                75% {
+                    opacity: .90;
+					-webkit-transform: scale(1.1) rotate(30deg);
+                }
+                100% {
+                    opacity: 1.0;
+					-webkit-transform: scale(1.0) rotate(0deg);
+                }
+                
+            }
+			
+			@-webkit-keyframes anmFlagPulse
+            {
+                0% {
+                    opacity: 1.0;
+					-webkit-transform: scale(1.0) rotate(0deg);
+                }
+                25% {
+                    opacity: .90;
+					-webkit-transform: scale(1.05) rotate(-5deg);
+                }
+                50% {
+                    opacity: .80;
+					-webkit-transform: scale(1.1) rotate(0deg);
+                }
+                75% {
+                    opacity: .90;
+					-webkit-transform: scale(1.05) rotate(5deg);
+                }
+                100% {
+                    opacity: 1.0;
+					-webkit-transform: scale(1.0) rotate(0deg);
+                }
+                
+            }
+			
+			.div_flag{
+				background: url('img/flag.png');
+				background-size: 100%;
+				position: absolute;
+				left: 30px;
+				top: 618px;
+				width: 150px;
+				height: 118px;
+				-webkit-animation-name: anmFlagPulse;
+				-webkit-animation-duration: 1s;
+				-webkit-animation-timing-function: linear;
+				-webkit-animation-iteration-count: infinite;
+				
+			}
+			
+			.div_flag_dragging{
+				background: url('img/flag.png');
+				background-size: 100%;
+				position: absolute;
+				width: 150px;
+				height: 118px;
+				
+			}
+			
+			.div_flag_dropped{
+				background: url('img/flag_black.png');
+				background-size: 100%;
+				position: absolute;
+				width: 25px;
+				height: 25px;
+				
+			}
+			#div_flag_small{
+				left: -100px;
+				top: -100px;
+			}
+			</style>
+		
+    </head>
+    <body>
+		<div id="div_container">
+			<div id="div_home_button"></div>
+			<div id="div_prompt"></div>
+			
+		</div>
+		<div id="div_flag_large" class="div_flag"></div>
+		<div id="div_flag_small" class="div_flag_dropped"></div>
+        <script type="text/javascript" src="cordova-2.2.0rc1.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+			</script>
+    </body>
+</html>
